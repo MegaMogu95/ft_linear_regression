@@ -1,12 +1,11 @@
 NAME1 = predict
 NAME2 = train
-SOURCES1 = predict/main.cpp
-SOURCES2 = train/main.cpp
+SOURCES1 = mandatory/predict/main.cpp
+SOURCES2 = mandatory/train/main.cpp
 BSOURCES = 
 OBJ1 = $(SOURCES1:.cpp=.o)
-BOBJECTS = $(BSOURCES:.cpp=.o)
+OBJ2 = $(SOURCES2:.cpp=.o)
 INCLUDE = mandatory
-BINCLUDE = bonus
 
 CC = c++
 CFLAGS = -Wall -Wextra -Werror -g
@@ -14,19 +13,23 @@ CFLAGS = -Wall -Wextra -Werror -g
 all: $(NAME1) $(NAME2)
 
 $(NAME1): $(OBJ1)
-	$(CC) $(CFLAGS) -o $(NAME) $^
+	$(CC) $(CFLAGS) -o $(NAME1) $^
 
-bonus: $(BOBJECTS)
-	$(CC) $(CFLAGS) -o $(NAME) $^
+$(NAME2): $(OBJ2)
+	$(CC) $(CFLAGS) -o $(NAME2) $^
 
-%.o: %.cpp
+
+mandatory/predict/%.o: mandatory/predict/%.cpp
+	$(CC) -c $(CFLAGS) $< -o $@ -I$(INCLUDE) -I$(BINCLUDE)
+
+mandatory/train/%.o: mandatory/train/%.cpp
 	$(CC) -c $(CFLAGS) $< -o $@ -I$(INCLUDE) -I$(BINCLUDE)
 
 clean:
-	rm -f $(OBJECTS) $(BOBJECTS)
+	rm -f $(OBJ1) $(OBJ2)
 
 fclean: clean
-	rm -f $(NAME)
+	rm -f $(NAME1) $(NAME2)
 
 re: fclean all
 
