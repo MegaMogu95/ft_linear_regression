@@ -5,7 +5,7 @@ SOURCES2 = mandatory/train/main.cpp
 BSOURCES = 
 OBJ1 = $(SOURCES1:.cpp=.o)
 OBJ2 = $(SOURCES2:.cpp=.o)
-INCLUDE = mandatory
+INCLUDE = mandatory/includes
 
 CC = c++
 CFLAGS = -Wall -Wextra -Werror -g
@@ -20,10 +20,10 @@ $(NAME2): $(OBJ2)
 
 
 mandatory/predict/%.o: mandatory/predict/%.cpp
-	$(CC) -c $(CFLAGS) $< -o $@ -I$(INCLUDE) -I$(BINCLUDE)
+	$(CC) -c $(CFLAGS) $< -o $@ -I$(INCLUDE)
 
 mandatory/train/%.o: mandatory/train/%.cpp
-	$(CC) -c $(CFLAGS) $< -o $@ -I$(INCLUDE) -I$(BINCLUDE)
+	$(CC) -c $(CFLAGS) $< -o $@ -I$(INCLUDE)
 
 clean:
 	rm -f $(OBJ1) $(OBJ2)
