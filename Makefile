@@ -1,9 +1,9 @@
 NAME1 = predict
 NAME2 = train
 NAME3 = r_squared
-SOURCES1 = mandatory/predict.cpp
-SOURCES2 = mandatory/train.cpp
-BSOURCES = bonuses/r_squared.cpp
+SOURCES1 = mandatory/predict.cpp mandatory/utils.cpp
+SOURCES2 = mandatory/train.cpp mandatory/utils.cpp
+BSOURCES = bonuses/r_squared.cpp mandatory/utils.cpp
 OBJ1 = $(SOURCES1:.cpp=.o)
 OBJ2 = $(SOURCES2:.cpp=.o)
 BOBJ = $(BSOURCES:.cpp=.o)
@@ -28,7 +28,7 @@ $(NAME3): $(BOBJ)
 mandatory/%.o: mandatory/%.cpp
 	$(CC) -c $(CFLAGS) $< -o $@ -I$(INCLUDE)
 
-bonuses/error/%.o: bonuses/%.cpp
+bonuses/%.o: bonuses/%.cpp
 	$(CC) -c $(CFLAGS) $< -o $@ -I$(INCLUDE)
 
 clean:

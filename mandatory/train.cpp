@@ -4,29 +4,6 @@
 #include <algorithm>
 #include "utils.hpp"
 
-int read_theta(double &theta0, double &theta1)
-{
-    std::ifstream   file("theta.txt");
-
-    if (!file.is_open())
-    {
-        std::cerr << "Unable to open file theta.txt\n";
-        return (-1);
-    }
-    if (!(file >> theta0) || !(file >> theta1))
-    {
-        std::cerr << "Wrong theta.txt file format\n";
-        return (-1);
-    }
-    file.close();
-    return (0);
-}
-
-double  estimate_price(double theta0, double theta1, double mileage)
-{
-    return (theta0 + theta1 * mileage);
-}
-
 int write_theta(double theta0, double theta1)
 {
     std::ofstream   file("theta.txt");
@@ -40,38 +17,6 @@ int write_theta(double theta0, double theta1)
     file << '\n';
     file << theta1;
     file.close();
-    return (0);
-}
-
-int read_data(std::vector<double> &mileages, std::vector<double> &prices)
-{
-    std::ifstream data("data.csv");
-    if (!data.is_open())
-    {
-        std::cerr << "Unable to open file data.csv\n";
-        return (-1);
-    }
-    std::string line;
-    std::getline(data, line);
-    while (true)
-    {
-        double  km;
-        if (!(data >> km))
-            break;
-        char c;
-        if (!(data >> c) || c != ',')
-            break;
-        double  price;
-        if (!(data >> price))
-            break;
-        mileages.push_back(km);
-        prices.push_back(price);
-    }
-    if (mileages.size() == 0)
-    {
-        std::cerr << "Empty data.csv file\n";
-        return (-1);
-    }
     return (0);
 }
 
