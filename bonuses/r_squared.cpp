@@ -3,14 +3,13 @@
 #include <vector>
 #include "utils.hpp"
 
-double  mean(std::vector<double> v)
+double  mean(std::vector<double> &v)
 {
     if (v.size() == 0)
         return (0);
     double  sum = 0;
     for (size_t i = 0; i < v.size(); i++)
         sum += v[i];
-    sum /= v.size();
     return (sum / v.size());
 }
 
@@ -49,7 +48,7 @@ int main()
 
     if (!out.is_open())
     {
-        std::cerr << "Unable to open file error.txt\n";
+        std::cerr << "Unable to open file r_squared.txt\n";
         return (-1);
     }
     if (read_data(mileages, prices))

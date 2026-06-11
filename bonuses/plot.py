@@ -31,7 +31,7 @@ with open("r_squared.txt", "r") as f:
 # 2. Add text to plot
 plt.text(
     0.05, 0.1,
-    f"$R^2 = {r_squared:.3f}$",
+    f"$R^2 = {r_squared:.6f}$",
     transform=plt.gca().transAxes,  # coordinates relative to plot
     fontsize=12,
     verticalalignment='top'
