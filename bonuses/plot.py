@@ -25,6 +25,18 @@ y_min = theta0 + theta1 * x_min
 y_max = theta0 + theta1 * x_max
 plt.plot([x_min, x_max], [y_min, y_max], color="red", label="regression")
 
+with open("r_squared.txt", "r") as f:
+    r_squared = float(f.read().strip())
+
+# 2. Add text to plot
+plt.text(
+    0.05, 0.1,
+    f"$R^2 = {r_squared:.3f}$",
+    transform=plt.gca().transAxes,  # coordinates relative to plot
+    fontsize=12,
+    verticalalignment='top'
+)
+
 plt.xlabel("Mileage (km)")
 plt.ylabel("Price")
 plt.title("Linear regression")

@@ -43,7 +43,7 @@ int write_theta(double theta0, double theta1)
     return (0);
 }
 
-int read_data(std::vector<double> &milages, std::vector<double> &prices)
+int read_data(std::vector<double> &mileages, std::vector<double> &prices)
 {
     std::ifstream data("data.csv");
     if (!data.is_open())
@@ -64,8 +64,13 @@ int read_data(std::vector<double> &milages, std::vector<double> &prices)
         double  price;
         if (!(data >> price))
             return (0);
-        milages.push_back(km);
+        mileages.push_back(km);
         prices.push_back(price);
+    }
+    if (mileages.size() == 0)
+    {
+        std::cerr << "Empty data.csv file\n";
+        return (-1);
     }
     return (0);
 }
@@ -106,15 +111,33 @@ void    get_unnormalized_theta(double &theta0, double &theta1, double mileages_m
     theta0 = prices_min + theta0 * (prices_max - prices_min) - theta1 * mileages_min;
 }
 
-int main()
+int main(int argc, char **argv)
 {
     double              theta0;
     double              theta1;
     std::vector<double> mileages;
     std::vector<double> prices;
+    int                 num_iter = 20000;
 
-    read_data(mileages, prices);
-    read_theta(theta0, theta1);
+    if (argc > 1)
+    {
+        try
+        {
+            num_iter = std::stoi(argv[1]);
+        }
+        catch(const std::exception& e)
+        {
+            std::cerr << e.what() << '\n';
+            return (1);
+        }
+        if (num_iter < 0)
+        {
+            std::cerr << "Negative number of iterations\n";
+            return (1);
+        }
+    }
+    if (read_data(mileages, prices) || read_theta(theta0, theta1))
+        return (1);
     double mileages_min = *min_element(mileages.begin(), mileages.end());
     double mileages_max = *max_element(mileages.begin(), mileages.end());
     double prices_min = *min_element(prices.begin(), prices.end());
@@ -122,7 +145,7 @@ int main()
     get_normalized_theta(theta0, theta1, mileages_min, mileages_max, prices_min, prices_max);
     normalize(mileages, mileages_min, mileages_max);
     normalize(prices, prices_min, prices_max);
-    for (int i = 0; i < 100; i++)
+    for (int i = 0; i < num_iter; i++)
         linear_reg_step(mileages, prices, theta0, theta1, 0.1);
     get_unnormalized_theta(theta0, theta1, mileages_min, mileages_max, prices_min, prices_max);
     write_theta(theta0, theta1);

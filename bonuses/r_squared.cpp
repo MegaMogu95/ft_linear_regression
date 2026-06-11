@@ -89,11 +89,12 @@ double  r_squared(std::vector<double> &mileages, std::vector<double> &prices, do
 
 int main()
 {
-    std::ofstream out("error.txt");
+    std::ofstream out("r_squared.txt");
     std::vector<double> mileages;
     std::vector<double> prices;
     double  theta0;
     double  theta1;
+    double  rs;
 
     if (!out.is_open())
     {
@@ -104,7 +105,13 @@ int main()
         return (1);
     if (read_theta(theta0, theta1))
         return (1);
-    out << r_squared(mileages, prices, theta0, theta1) << "\n";
-    std::cout << r_squared(mileages, prices, theta0, theta1);
+    rs = r_squared(mileages, prices, theta0, theta1);
+    out << rs << "\n";
+    std::cout << "The coefficient of determination (R^2) for the current value of theta0 and theta1 is ";
+    std::cout << rs << "\n";
+    if (rs < 0)
+        std::cout << "The prediction is worse that guessing the average of the sample\n";
+    else
+        std::cout << "The remaining unexplained variance is " << 1 - rs << "\n";
     out.close();
 }

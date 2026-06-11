@@ -1,18 +1,18 @@
 NAME1 = predict
 NAME2 = train
-NAME3 = error
-SOURCES1 = mandatory/predict/main.cpp
-SOURCES2 = mandatory/train/main.cpp
-BSOURCES = bonuses/error.cpp
+NAME3 = r_squared
+SOURCES1 = mandatory/predict.cpp
+SOURCES2 = mandatory/train.cpp
+BSOURCES = bonuses/r_squared.cpp
 OBJ1 = $(SOURCES1:.cpp=.o)
 OBJ2 = $(SOURCES2:.cpp=.o)
 BOBJ = $(BSOURCES:.cpp=.o)
-INCLUDE = mandatory/includes
+INCLUDE = includes
 
 CC = c++
 CFLAGS = -Wall -Wextra -Werror -g
 
-all: $(NAME1) $(NAME2)
+all: $(NAME1) $(NAME2) $(NAME3)
 
 bonus: $(NAME3)
 
@@ -25,10 +25,7 @@ $(NAME2): $(OBJ2)
 $(NAME3): $(BOBJ)
 	$(CC) $(CFLAGS) -o $(NAME3) $^
 
-mandatory/predict/%.o: mandatory/predict/%.cpp
-	$(CC) -c $(CFLAGS) $< -o $@ -I$(INCLUDE)
-
-mandatory/train/%.o: mandatory/train/%.cpp
+mandatory/%.o: mandatory/%.cpp
 	$(CC) -c $(CFLAGS) $< -o $@ -I$(INCLUDE)
 
 bonuses/error/%.o: bonuses/%.cpp
