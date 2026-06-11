@@ -57,13 +57,13 @@ int read_data(std::vector<double> &mileages, std::vector<double> &prices)
     {
         double  km;
         if (!(data >> km))
-            return (0);
+            break;
         char c;
         if (!(data >> c) || c != ',')
-            return (0);
+            break;
         double  price;
         if (!(data >> price))
-            return (0);
+            break;
         mileages.push_back(km);
         prices.push_back(price);
     }
