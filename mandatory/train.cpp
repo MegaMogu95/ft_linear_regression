@@ -96,6 +96,8 @@ int main(int argc, char **argv)
     }
     if (read_data(mileages, prices) || read_theta(theta0, theta1))
         return (1);
+    if (mileages.size() == 0)
+        return (1);
     double mileages_min = *min_element(mileages.begin(), mileages.end());
     double mileages_max = *max_element(mileages.begin(), mileages.end());
     double prices_min = *min_element(prices.begin(), prices.end());
