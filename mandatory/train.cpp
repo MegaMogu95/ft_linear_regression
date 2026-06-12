@@ -39,12 +39,25 @@ void    linear_reg_step(std::vector<double> &mileages, std::vector<double> &pric
 
 void    normalize(std::vector<double> &v, double min, double max)
 {
+    if (max == min)
+        return;
     for (size_t i = 0; i < v.size(); i++)
-        v[i] = (v[i] - min) / (max - min);
+    {
+        if (max == min)
+            v[i] = 0;
+        else
+            v[i] = (v[i] - min) / (max - min);
+    }
 }
 
 void    get_normalized_theta(double &theta0, double &theta1, double mileages_min, double mileages_max, double prices_min, double prices_max)
 {
+    if (prices_max == prices_min)
+    {
+        theta0 = 0;
+        theta1 = 0;
+        return;
+    }
     theta0 += theta1 * mileages_min - prices_min;
     theta0 /= prices_max - prices_min;
     theta1 *= (mileages_max - mileages_min) / (prices_max - prices_min);
@@ -87,6 +100,11 @@ int main(int argc, char **argv)
     double mileages_max = *max_element(mileages.begin(), mileages.end());
     double prices_min = *min_element(prices.begin(), prices.end());
     double prices_max = *max_element(prices.begin(), prices.end());
+    if (mileages_min == mileages_max)
+    {
+        std::cerr << "error: mileages_max = mileages_min\n";
+        return (1);
+    }
     get_normalized_theta(theta0, theta1, mileages_min, mileages_max, prices_min, prices_max);
     normalize(mileages, mileages_min, mileages_max);
     normalize(prices, prices_min, prices_max);

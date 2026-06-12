@@ -1,6 +1,7 @@
 #include <fstream>
 #include <iostream>
 #include <vector>
+#include <limits>
 #include "utils.hpp"
 
 double  mean(std::vector<double> &v)
@@ -34,7 +35,13 @@ double  ss_res(std::vector<double> &mileages, std::vector<double> &prices, doubl
 
 double  r_squared(std::vector<double> &mileages, std::vector<double> &prices, double theta0, double theta1)
 {
-    return (1 - ss_res(mileages, prices, theta0, theta1) / ss_tot(prices));
+    double  tot = ss_tot(prices);
+    double  res = ss_res(mileages, prices, theta0, theta1);
+    if (tot == 0 && res == 0)
+        return (1);
+    else if (tot == 0)
+        return (-std::numeric_limits<double>::infinity());
+    return (1 - res / tot);
 }
 
 int main()
